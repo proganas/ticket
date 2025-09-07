@@ -93,6 +93,13 @@
                                                                 <i class="fa fa-trash"></i>
                                                             </button>
                                                         </form>
+                                                    @else
+                                                        @if($ticket->message == null && $ticket->status == 'open' && ($ticket->assigned_to == auth()->id() || $ticket->assigned_to == null))
+                                                            <a href="{{ route($prefix . '.tickets.replay', $ticket->id) }}"
+                                                               title="Replay">
+                                                                <i class="fa fa-reply" style="color:#212529"></i>
+                                                            </a>
+                                                        @endif
                                                     @endif
                                                 </div>
                                             </td>
