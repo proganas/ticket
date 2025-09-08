@@ -15,13 +15,13 @@ class TicketSeeder extends Seeder
      */
     public function run()
     {
-        $created_by = [1, 2, 3];
-        $assigned_to = [3, 1, 2];
-        $title = ['Test1', 'Test2', 'Test3'];
-        $description = ['Description1', 'Description2', 'Description3'];
-        $status = ['open', 'closed', 'open'];
-        $priority = ['low', 'medium', 'high'];
-        $project_id = [1, 2, 3];
+        $created_by = [1, 2, 3, 4, 5, 6];
+        $assigned_to = [3, 1, 2, null, null, 5];
+        $title = ['Test 1', 'Test 2', 'Test 3', 'Test 4', 'Test 5', 'Test 6'];
+        $description = ['Description 1', 'Description 2', 'Description 3', 'Description 4', 'Description 5', 'Description 6'];
+        $status = ['open', 'open', 'open', 'open', 'open', 'open'];
+        $priority = ['low', 'medium', 'high', 'low', 'medium', 'high'];
+        $project_id = [1, 2, 3, 1, 2, 3];
 
         for ($i = 0; $i < count($title); $i++) {
             Ticket::create([

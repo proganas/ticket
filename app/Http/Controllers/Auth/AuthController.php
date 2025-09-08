@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminLoginRequest;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,21 @@ class AuthController extends Controller
 
     public function home()
     {
-        return view('index');
+        if (auth()->user()->role == 'admin') {
+            $tickets = Ticket::all();
+        } elseif (auth()->user()->role == 'agent') {
+            $tickets = Ticket::where('created_by', auth()->user()->id)->orWhere('assigned_to', auth()->user()->id)->orWhere('assigned_to', null)->get();
+            $openCount = $tickets->where('status', 'open')->whereNotNull('assigned_to')->count();
+            $closedCount = $tickets->where('status', 'closed')->count();
+            $assignedToCount = $tickets->where('assigned_to', null)->count();
+            return view('index', compact('openCount', 'closedCount', 'assignedToCount'));
+        } else {
+            $tickets = Ticket::where('created_by', auth()->user()->id)->orWhere('assigned_to', auth()->user()->id)->get();
+        }
+        $openCount = $tickets->where('status', 'open')->count();
+        $closedCount = $tickets->where('status', 'closed')->count();
+
+        return view('index', compact('openCount', 'closedCount'));
     }
 
     public function authenticate(AdminLoginRequest $request)
