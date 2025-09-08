@@ -44,6 +44,7 @@ class TicketController extends Controller
             $projects = Project::all();
             return view('tickets.create', compact('users', 'projects'));
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return redirect()->back()->with(['error' => 'Something Wrong']);
         }
     }

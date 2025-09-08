@@ -40,8 +40,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['agent'])->prefix('agent')->name('agent.')->group(function () {
         Route::get('dashboard', [AuthController::class, 'home'])->name('home');
         Route::get('tickets', [TicketController::class, 'index'])->name('tickets.index');
-        Route::get('tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
         Route::get('/tickets/create', [TicketController::class, 'create'])->name('tickets.create');
+        Route::get('tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
         Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
         Route::get('/replay/{ticket}', [TicketController::class, 'replay'])->name('tickets.replay');
         Route::post('/save-replay', [TicketController::class, 'save_replay'])->name('tickets.save_replay');
@@ -51,8 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['user'])->prefix('user')->name('user.')->group(function () {
         Route::get('dashboard', [AuthController::class, 'home'])->name('home');
         Route::get('tickets', [TicketController::class, 'index'])->name('tickets.index');
-        Route::get('tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
         Route::get('/tickets/create', [TicketController::class, 'create'])->name('tickets.create');
+        Route::get('tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
         Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
         Route::get('/replay/{ticket}', [TicketController::class, 'replay'])->name('tickets.replay');
         Route::post('/replay', [TicketController::class, 'save_replay'])->name('tickets.save_replay');
