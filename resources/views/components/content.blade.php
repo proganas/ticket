@@ -49,7 +49,7 @@
                             <div class="inner">
                                 <h3>{{ $assignedToCount }}</h3>
 
-                                <p>Assigned To No One</p>
+                                <p>Ticket(s) Assigned To No One</p>
                             </div>
 
                         </div>
