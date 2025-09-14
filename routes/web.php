@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
@@ -57,7 +58,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/replay/{ticket}', [TicketController::class, 'replay'])->name('tickets.replay');
         Route::post('/replay', [TicketController::class, 'save_replay'])->name('tickets.save_replay');
     });
-
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::post('/notifications/{id}/read', [NotificationController::class,'markRead'])->name('notifications.read');
+    Route::post('/notifications/mark-all-read', [NotificationController::class,'markAllRead'])->name('notifications.readAll');
+
 
 });

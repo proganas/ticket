@@ -7,6 +7,7 @@ use App\Http\Requests\TicketRequest;
 use App\Models\Project;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Notifications\UserAssignedNotification;
 
 class TicketController extends Controller
 {
@@ -53,9 +54,20 @@ class TicketController extends Controller
     {
         try {
             $requested_data = $request->only(['title', 'description', 'priority', 'status', 'assigned_to', 'created_by', 'project_id']);
-            Ticket::create($requested_data);
-            $prefix = request()->segment(1);
+            $ticket = Ticket::create($requested_data);
 
+            // Notify the user if assigned
+            if ($ticket->assigned_to) {
+                $user = User::where('id', $ticket->assigned_to)
+                    ->first();
+
+                if ($user) {
+                    $user->notify(new UserAssignedNotification($ticket));
+                }
+            }
+
+
+            $prefix = request()->segment(1);
             return redirect()->route($prefix . ".tickets.index")->with('success', 'Ticket created successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with(['error' => 'Something Wrong']);

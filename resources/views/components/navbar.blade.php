@@ -20,6 +20,45 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
+        @if(auth()->user()->unreadNotifications->count() > 0)
+            {{--            <a class="nav-link" href="#" data-toggle="dropdown">--}}
+            {{--                {{ auth()->user()->unreadNotifications->count() }} <i class="fas fa-bell"></i>--}}
+            {{--            </a>--}}
+            @php
+                $prefix = request()->segment(1);
+            @endphp
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#" data-toggle="dropdown">
+                    {{ auth()->user()->unreadNotifications->count() }} <i class="fas fa-bell"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-item dropdown-header">{{ auth()->user()->unreadNotifications->count() }} Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    @foreach(auth()->user()->unreadNotifications as $n)
+                        <a href="{{ route($prefix . '.tickets.show', $n->data['ticket_id']) }}"
+                           class="nav-link dropdown-item">
+                            <strong>{{ $n->data['title'] }}</strong><br>
+{{--                            <small>{{ $n->data['message'] }}</small>--}}
+{{--                            <div><small class="text-muted">{{ $n->created_at->diffForHumans() }}</small></div>--}}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    @endforeach
+                    <a href="{{ route('notifications.readAll') }}" class="dropdown-item dropdown-footer">Mark all as
+                        read</a>
+                </div>
+            </li>
+
+
+{{--            @foreach(auth()->user()->unreadNotifications as $n)--}}
+{{--                <a href="{{ route('tickets.show', $n->data['ticket_id']) }}" class="nav-link dropdown-item">--}}
+{{--                    <strong>{{ $n->data['title'] }}</strong><br>--}}
+{{--                    <small>{{ $n->data['message'] }}</small>--}}
+{{--                    <div><small class="text-muted">{{ $n->created_at->diffForHumans() }}</small></div>--}}
+{{--                </a>--}}
+{{--            @endforeach--}}
+
+        @endif
+
         <li class="nav-item dropdown">
             <a class="nav-link" href="#" data-toggle="dropdown">
                 <i class="fas fa-user"></i>
